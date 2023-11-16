@@ -3,6 +3,7 @@ import { getAntdFieldsRequireRule } from '@/helpers/validations';
 import { Button, Form, message } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface UserType {
@@ -13,7 +14,7 @@ interface UserType {
 
 export default function Register() {
     const [loading, setloading] = useState(false);
-
+    const router = useRouter();
     const onRegister = async (values: UserType) => {
         try {
             setloading(true);
@@ -24,7 +25,7 @@ export default function Register() {
                     message.success(
                         'Register Success, please login to continue'
                     );
-                    // redirect to login page
+                    router.push('/auth/login');
                     console.log(res);
                 });
         } catch (error: any) {

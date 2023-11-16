@@ -4,6 +4,7 @@ import { getAntdFieldsRequireRule } from '@/helpers/validations';
 import { Button, Form, message } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface UserType {
@@ -12,22 +13,28 @@ interface UserType {
     password: string;
 }
 
-export default function Register() {
+export default function Login() {
     const [loading, setloading] = useState(false);
-
-    const onRegister = async (values: UserType) => {
+    const router = useRouter();
+    const onLogin = async (values: UserType) => {
         try {
             setloading(true);
-            await axios
-                .post(`http://localhost:3000/auth/login`, values)
-                .then((res) => {
-                    setloading(false);
-                    message.success('Login Success, please login to continue');
-                    // redirect to login page
-                    console.log(res);
-                });
+            const res = await axios.post(
+                `http://localhost:3000/auth/login`,
+                values
+            );
+            console.log(res);
+
+            if (res.data.status !== 201) {
+                message.error(res.data.message);
+            }
+
+            message.success('Login Sucessfully!');
+            router.push('/');
         } catch (error: any) {
             message.error(error.response.data.message);
+            setloading(false);
+        } finally {
             setloading(false);
         }
     };
@@ -46,19 +53,11 @@ export default function Register() {
                     <Form
                         className="w-[500px] flex flex-col gap-5"
                         layout="vertical"
-                        onFinish={onRegister}
+                        onFinish={onLogin}
                     >
                         <h1 className="text-2xl font-bold">Login</h1>
                         <hr />
-                        {/* <Form.Item
-                            name="name"
-                            label="Name"
-                            rules={getAntdFieldsRequireRule(
-                                'Please, type your name!'
-                            )}
-                        >
-                            <input type="text" />
-                        </Form.Item> */}
+
                         <Form.Item
                             name="email"
                             label="Email"
@@ -84,7 +83,7 @@ export default function Register() {
                             block
                             loading={loading}
                         >
-                            Register
+                            Login
                         </Button>
 
                         <Link href="/auth/register" className="text-primary">
