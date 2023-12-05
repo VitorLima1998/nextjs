@@ -1,13 +1,18 @@
 'use client';
-import { Popover, Button, message } from 'antd';
+import { CartState } from '@/redux/cartSlice';
+import { Badge, Popover, message } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 function LayoutProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const [currentUser, setCurrentUser] = useState('');
-    const [loading, setLoading] = useState(false);
     const pathName = usePathname();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
+    const [currentUser, setCurrentUser] = useState('');
+    const { cartItems }: CartState = useSelector((state: any) => state.cart);
+
     const isPrivatePage =
         pathName !== '/auth/login' && pathName !== '/auth/register';
 
@@ -39,11 +44,17 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
         getCurrentUser();
     }, []);
 
+    useEffect(() => {
+        console.log(cartItems);
+        // when the cartItems changes, we will save cartItem into localStorage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
+
     const getCurrentUser = async () => {
         try {
             setLoading(true);
             // get axios in backend
-            setCurrentUser('Beto');
+            setCurrentUser('V');
         } catch (error: any) {
             message.error(error.message);
         } finally {
@@ -61,13 +72,23 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
                         </h1>
                     </div>
                     <div className="flex gap-5 items-center">
-                        <i className="ri-shopping-cart-line text-white text-2xl"></i>
+                        <Badge
+                            count={cartItems.length}
+                            className="cursor-pointer"
+                        >
+                            <i
+                                className="ri-shopping-cart-line text-white text-2xl"
+                                onClick={() => {
+                                    router.push('/cart');
+                                }}
+                            ></i>
+                        </Badge>
                         <Popover
                             content={content}
                             title="Title"
                             trigger="click"
                         >
-                            <div className="flex h-8 w-8 bg-white">
+                            <div className="flex justify-center items-center rounded-full h-8 w-8 bg-white">
                                 {currentUser}
                             </div>
                         </Popover>
