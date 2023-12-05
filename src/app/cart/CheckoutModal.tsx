@@ -2,7 +2,7 @@
 import { Modal, notification } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../constans';
+import { API_URL } from '../constants';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
