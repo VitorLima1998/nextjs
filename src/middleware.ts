@@ -18,7 +18,6 @@ export async function middleware(req: NextRequest, res: NextResponse) {
         }
 
         // check if the token is valid
-
         return NextResponse.next();
     }
 }
