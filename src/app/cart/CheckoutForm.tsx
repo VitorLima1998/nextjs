@@ -57,6 +57,8 @@ function CheckoutForm({
                 total,
             };
 
+            
+
             // save data to backend
             //don't forget to update stock
 

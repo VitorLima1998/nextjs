@@ -100,7 +100,7 @@ function Cart() {
                                 </div>
 
                                 <span className="col-span-1">
-                                    $ {item.price * item.quantity}
+                                    ${item.price * item.quantity}
                                 </span>
 
                                 <div className="xl:hidden block col-span-4">
