@@ -24,6 +24,7 @@
     "mongoose": "^7.5.3",
     "next": "latest",
     "react": "latest",
+    "react-cookie": "^6.1.1",
     "react-dom": "latest",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
