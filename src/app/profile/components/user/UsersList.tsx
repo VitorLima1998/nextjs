@@ -49,7 +49,6 @@ function UsersList() {
             dataIndex: 'name',
             key: 'name',
 
-            // criar o render com as ações
         },
         {
             title: 'E-mail',
